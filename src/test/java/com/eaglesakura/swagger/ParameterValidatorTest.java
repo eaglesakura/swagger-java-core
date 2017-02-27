@@ -11,6 +11,10 @@ public class ParameterValidatorTest {
     public void Nullは不正である() throws Throwable {
         assertFalse(new ParameterValidator(null).valid());
         assertTrue(new ParameterValidator("test").valid());
+        assertTrue(new ParameterValidator(1).valid());
+        assertTrue(new ParameterValidator(1.12f).valid());
+        assertTrue(new ParameterValidator(1.123).valid());
+        assertTrue(new ParameterValidator(this).valid());
     }
 
     @Test
