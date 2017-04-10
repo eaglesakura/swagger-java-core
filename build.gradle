@@ -33,7 +33,7 @@ version = ARTIFACT_VERSION + getArtifactVersionSuffix()
 dependencies {
     compile "com.eaglesakura:json-wrapper:1.1.423"
     testCompile 'junit:junit:4.12'
-    testCompile 'commons-codec:commons-codec:1.+'
+    testCompile 'commons-codec:commons-codec:1.10'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
