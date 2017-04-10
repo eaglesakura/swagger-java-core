@@ -48,8 +48,14 @@ public class ParameterValidator {
 
     public boolean valid() {
         // required param error
-        if (mRequired != null && mRequired && mParameter == null) {
-            return false;
+        if (mRequired != null && mParameter == null) {
+            if (mRequired) {
+                // 必須パラメータが設定されていない
+                return false;
+            } else {
+                // パラメータは無いが必須でもないのでこれ以上のチェックは不要
+                return true;
+            }
         }
 
         if (mParameter instanceof Validatable) {

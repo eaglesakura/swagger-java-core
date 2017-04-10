@@ -18,6 +18,12 @@ public class ParameterValidatorTest {
     }
 
     @Test
+    public void Require以外でNullは問題ない() throws Throwable {
+        assertTrue(new ParameterValidator(null).required(false).valid());
+        assertFalse(new ParameterValidator(null).required(true).valid());
+    }
+
+    @Test
     public void 文字列のチェック() throws Throwable {
         assertFalse(new ParameterValidator("tes").minLength(4).valid());
         assertTrue(new ParameterValidator("test").minLength(4).valid());
