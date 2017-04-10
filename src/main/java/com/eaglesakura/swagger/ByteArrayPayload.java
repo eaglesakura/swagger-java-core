@@ -15,6 +15,11 @@ public class ByteArrayPayload implements DataPayload {
     }
 
     @Override
+    public int getContentLength() {
+        return mPostBuffer.length;
+    }
+
+    @Override
     public InputStream openStream() throws IOException {
         return new ByteArrayInputStream(mPostBuffer);
     }

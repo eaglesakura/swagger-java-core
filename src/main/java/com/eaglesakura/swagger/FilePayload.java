@@ -16,6 +16,11 @@ public class FilePayload implements DataPayload {
     }
 
     @Override
+    public int getContentLength() {
+        return (int) mFile.length();
+    }
+
+    @Override
     public InputStream openStream() throws IOException {
         return new FileInputStream(mFile);
     }

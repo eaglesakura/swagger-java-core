@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  *
  */
-public interface ApiInvoker {
+public interface SwaggerHttpClient {
 
     /**
      * "${Api.basePath}/path/to/local/api"
@@ -44,5 +44,5 @@ public interface ApiInvoker {
      * @param <T>        result data
      */
     /* @Nullable */
-    <T> T execute(/* @NonNull */ Class<T> parseClass) throws IOException;
+    <T> T fetch(/* @NonNull */ Class<T> parseClass) throws IOException;
 }

@@ -65,9 +65,9 @@ public class SwaggerUtil {
         return base + "/" + local;
     }
 
-    public static <T> Object invoke(ApiInvoker invoker, String type, Class<T> decodeClass, Class<T[]> arrayClass) throws IOException {
+    public static <T> Object fetch(SwaggerHttpClient client, String type, Class<T> decodeClass, Class<T[]> arrayClass) throws IOException {
         if ("array".equals(type) || "list".equals(type)) {
-            T[] array = invoker.execute(arrayClass);
+            T[] array = client.fetch(arrayClass);
             if (array == null) {
                 return null;
             }
@@ -78,7 +78,7 @@ public class SwaggerUtil {
             }
             return list;
         } else {
-            return invoker.execute(decodeClass);
+            return client.fetch(decodeClass);
         }
     }
 
