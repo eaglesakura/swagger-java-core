@@ -47,10 +47,11 @@ public class ParameterValidator {
     }
 
     public boolean valid() {
-        // required param error
-        if (mRequired != null && mParameter == null) {
-            if (mRequired) {
-                // 必須パラメータが設定されていない
+        // パラメータを事前チェックする
+        if (mParameter == null) {
+            boolean required = (mRequired != null && mRequired);
+            if (required) {
+                // 必須パラメータが指定されていない
                 return false;
             } else {
                 // パラメータは無いが必須でもないのでこれ以上のチェックは不要
@@ -77,6 +78,6 @@ public class ParameterValidator {
             }
         }
 
-        return mParameter != null;
+        return true;
     }
 }

@@ -9,7 +9,6 @@ public class ParameterValidatorTest {
 
     @Test
     public void Nullは不正である() throws Throwable {
-        assertFalse(new ParameterValidator(null).valid());
         assertTrue(new ParameterValidator("test").valid());
         assertTrue(new ParameterValidator(1).valid());
         assertTrue(new ParameterValidator(1.12f).valid());
@@ -19,6 +18,8 @@ public class ParameterValidatorTest {
 
     @Test
     public void Require以外でNullは問題ない() throws Throwable {
+        assertTrue(new ParameterValidator(null).valid());
+        assertTrue(new ParameterValidator("test").valid());
         assertTrue(new ParameterValidator(null).required(false).valid());
         assertFalse(new ParameterValidator(null).required(true).valid());
     }
