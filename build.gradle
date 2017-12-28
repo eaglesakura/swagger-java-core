@@ -1,13 +1,14 @@
 /**
- * 1.0.0   : release
+ * 1.0.x   : release
+ * 1.1.x   : Deploy規則を変更
  */
-def ARTIFACT_VERSION = "1.0"
+ def ARTIFACT_VERSION = System.env.CIRCLE_TAG == null ?
+        "1.1" : System.env.CIRCLE_TAG.substring(System.env.CIRCLE_TAG.indexOf('v') + 1)
 def REPOSITORY_NAME = "maven"
 def BINTRAY_LICENSES = ["MIT"]
-def BINTRAY_LABELS = ["android"]
+def BINTRAY_LABELS = ["android", "swagger"]
 def BINTRAY_API_KEY = System.env.BINTRAY_API_KEY
 def BINTRAY_GPG_PASS = System.env.BINTRAY_GPG_PASS
-
 
 buildscript {
     repositories {
@@ -19,8 +20,8 @@ buildscript {
 }
 
 repositories {
+    maven { url "https://maven.google.com" }
     jcenter()
-    maven { url "https://dl.bintray.com/eaglesakura/maven/" }
 }
 
 apply plugin: 'java'
@@ -31,7 +32,7 @@ group = "com.eaglesakura"
 version = ARTIFACT_VERSION + getArtifactVersionSuffix()
 
 dependencies {
-    compile "com.eaglesakura:json-wrapper:1.1.423"
+    compile "com.eaglesakura:json-wrapper:1.2.0"
     testCompile 'junit:junit:4.12'
     testCompile 'commons-codec:commons-codec:1.10'
 }
@@ -64,9 +65,16 @@ artifacts {
  * CircleCIの場合、バージョン末尾にビルド番号を付与する
  */
 def getArtifactVersionSuffix() {
+    String CIRCLE_TAG = System.env.CIRCLE_TAG
+
+    if (CIRCLE_TAG != null) {
+        // TAGがある場合それを直接利用する
+        return ""
+    }
+
     if (System.env.CIRCLE_BUILD_NUM != null) {
         // CircleCIのバージョンが指定されているので、そちらを利用する
-        return ".${System.env.CIRCLE_BUILD_NUM}"
+        return ".build-${System.env.CIRCLE_BUILD_NUM}"
     } else {
         return ".snapshot"
     }
