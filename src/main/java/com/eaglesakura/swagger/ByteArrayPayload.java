@@ -4,6 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Byte配列をアップロードするためのPayload実装
+ */
 public class ByteArrayPayload implements DataPayload {
     private final byte[] mPostBuffer;
 

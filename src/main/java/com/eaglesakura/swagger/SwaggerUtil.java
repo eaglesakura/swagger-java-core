@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("WeakerAccess")
 public class SwaggerUtil {
     private SwaggerUtil() {
     }
@@ -28,10 +29,23 @@ public class SwaggerUtil {
         }
     }
 
+    /**
+     * byte配列から送信用Payloadを生成する
+     *
+     * @param contentType Content-Type header
+     * @param buffer      Data Buffer
+     */
     public static DataPayload newByteBufferPayload(String contentType, byte[] buffer) {
         return new ByteArrayPayload(contentType, buffer);
     }
 
+    /**
+     * オブジェクトをJsonシリアライズし、送信用Payloadを生成する.
+     *
+     * シリアライズには Google Gson が使用される.
+     *
+     * @param obj Jsonシリアライズ対象
+     */
     public static DataPayload newJsonPayload(Object obj) {
         try (ByteArrayOutputStream os = new ByteArrayOutputStream(1024)) {
             JSON.encode(os, obj);
@@ -41,8 +55,13 @@ public class SwaggerUtil {
         }
     }
 
+    /**
+     * Formデータ送信用Payloadを生成する
+     *
+     * @param form Formデータとして送信するKey-Value
+     */
     public static DataPayload newFormPayload(Map<String, String> form) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         for (Map.Entry<String, String> entry : form.entrySet()) {
             buffer.append(escapeString(entry.getKey()));
@@ -54,6 +73,14 @@ public class SwaggerUtil {
         return newByteBufferPayload(DataPayload.CONTENT_TYPE_FORM, buffer.toString().getBytes());
     }
 
+    /**
+     * URLのパスを合成する
+     *
+     * base: "http://example.com"  local: "example"  -> http://example.com/example
+     * base: "http://example.com/" local: "example"  -> http://example.com/example
+     * base: "http://example.com/" local: "/example" -> http://example.com/example
+     * base: "http://example.com"  local: "/example" -> http://example.com/example
+     */
     public static String addPath(String base, String local) {
         if (base.endsWith("/")) {
             base = base.substring(0, base.length() - 1);

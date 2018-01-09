@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * upload data payload
+ * データ送信を行うためのインターフェース
  */
 public interface DataPayload {
 
@@ -15,7 +15,9 @@ public interface DataPayload {
     String CONTENT_TYPE_OCTET_STREAM = "application/octet-stream";
 
     /**
-     * close in HttpClient impl.
+     * 送信データを取得するためのInputStreamを開く。
+     *
+     * InputStream#close()はSwaggerHttpClientの実装が行う必要がある。
      */
     InputStream openStream() throws IOException;
 
