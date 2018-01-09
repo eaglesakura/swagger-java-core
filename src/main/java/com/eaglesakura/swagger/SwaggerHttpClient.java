@@ -3,7 +3,7 @@ package com.eaglesakura.swagger;
 import java.io.IOException;
 
 /**
- *
+ * swagger.yamlで定義されたAPIへのリクエストを組み立てるインターフェース.
  */
 public interface SwaggerHttpClient {
 
@@ -38,7 +38,7 @@ public interface SwaggerHttpClient {
     /**
      * start api request
      *
-     * if no return api => parseClass is null.
+     * if no return api(status 201) => parseClass is null.
      *
      * @param parseClass deserialize class
      * @param <T>        result data

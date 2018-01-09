@@ -4,18 +4,20 @@ package com.eaglesakura.swagger;
 import java.util.regex.Pattern;
 
 /**
- * Param validate
+ * 送受信対象のデータを検証する
  */
+@SuppressWarnings("WeakerAccess")
 public class ParameterValidator {
-    Object mParameter;
 
-    Boolean mRequired;
+    private Object mParameter;
 
-    String mPattern;
+    private Boolean mRequired;
 
-    Integer mMinLength;
+    private String mPattern;
 
-    Integer mMaxLength;
+    private Integer mMinLength;
+
+    private Integer mMaxLength;
 
     public ParameterValidator(Object parameter) {
         mParameter = parameter;
@@ -26,6 +28,11 @@ public class ParameterValidator {
         return this;
     }
 
+    /**
+     * 文字列の正規表現パターンが渡される.
+     *
+     * patternに一致しない文字列はInvalidとして扱う
+     */
     public ParameterValidator pattern(String pattern) {
         if (pattern != null) {
             if (pattern.startsWith("/")) {
@@ -36,16 +43,29 @@ public class ParameterValidator {
         return this;
     }
 
+    /**
+     * 文字列の最小文字数を規定する
+     *
+     * mParameter#length() < minLengthの文字列はInvalidとして扱う
+     */
     public ParameterValidator minLength(Integer minLength) {
         mMinLength = minLength;
         return this;
     }
 
+    /**
+     * 文字列の最大文字数を規定する
+     *
+     * mParameter#length() > maxLengthの文字列はInvalidとして扱う
+     */
     public ParameterValidator maxLength(Integer maxLength) {
         mMaxLength = maxLength;
         return this;
     }
 
+    /**
+     * パラメータが正しいことを検証する
+     */
     public boolean valid() {
         // パラメータを事前チェックする
         if (mParameter == null) {
