@@ -29,4 +29,8 @@ public class FilePayload implements DataPayload {
     public String getContentType() {
         return mContentType;
     }
+
+    public File getFile() {
+        return mFile;
+    }
 }
