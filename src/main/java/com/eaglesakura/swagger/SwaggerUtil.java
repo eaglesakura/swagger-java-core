@@ -1,7 +1,5 @@
 package com.eaglesakura.swagger;
 
-import com.eaglesakura.json.JSON;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -12,6 +10,12 @@ import java.util.Map;
 @SuppressWarnings("WeakerAccess")
 public class SwaggerUtil {
     private SwaggerUtil() {
+    }
+
+    private static JsonSerializer jsonSerializer = null;
+
+    public static void setJsonSerializer(JsonSerializer jsonSerializer) {
+        SwaggerUtil.jsonSerializer = jsonSerializer;
     }
 
     /**
@@ -41,14 +45,14 @@ public class SwaggerUtil {
 
     /**
      * オブジェクトをJsonシリアライズし、送信用Payloadを生成する.
-     *
+     * <p>
      * シリアライズには Google Gson が使用される.
      *
      * @param obj Jsonシリアライズ対象
      */
     public static DataPayload newJsonPayload(Object obj) {
         try (ByteArrayOutputStream os = new ByteArrayOutputStream(1024)) {
-            JSON.encode(os, obj);
+            jsonSerializer.serialize(os, obj);
             return newByteBufferPayload(DataPayload.CONTENT_TYPE_JSON, os.toByteArray());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -75,7 +79,7 @@ public class SwaggerUtil {
 
     /**
      * URLのパスを合成する
-     *
+     * <p>
      * base: "http://example.com"  local: "example"  -> http://example.com/example
      * base: "http://example.com/" local: "example"  -> http://example.com/example
      * base: "http://example.com/" local: "/example" -> http://example.com/example
